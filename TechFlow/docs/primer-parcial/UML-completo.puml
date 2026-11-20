@@ -1,0 +1,103 @@
+@startuml
+skinparam classAttributeIconSize 0
+interface Cotizable { +calcularPrecio(): double }
+abstract class Servicio {
+ -nombre: String
+ -tarifaHora: double
+ -horas: int
+ #Servicio(nombre: String, tarifaHora: double, horas: int)
+ +getNombre(): String
+ +getTarifaHora(): double
+ +getHoras(): int
+ #calcularBase(): double
+ {abstract} +calcularPrecio(): double
+}
+class DesarrolloWeb {
+ -paginas: int
+ +DesarrolloWeb(horas: int, paginas: int)
+ +getPaginas(): int
+ +calcularPrecio(): double
+}
+class Automatizacion {
+ -procesos: int
+ +Automatizacion(horas: int, procesos: int)
+ +getProcesos(): int
+ +calcularPrecio(): double
+}
+class DesarrolloSoftware {
+ -modulos: int
+ +DesarrolloSoftware(horas: int, modulos: int)
+ +getModulos(): int
+ +calcularPrecio(): double
+}
+class Cliente {
+ -id: int
+ -nombre: String
+ -email: String
+ +Cliente(id: int, nombre: String, email: String)
+ +getId(): int
+ +getNombre(): String
+ +getEmail(): String
+ +setNombre(nombre: String): void
+ +setEmail(email: String): void
+ +toString(): String
+}
+class Presupuesto {
+ -id: int
+ -cliente: Cliente
+ -detalles: List<Detalle>
+ +Presupuesto(id: int, cliente: Cliente)
+ +getId(): int
+ +getCliente(): Cliente
+ +getDetalles(): List<Detalle>
+ +agregarServicio(servicio: Servicio): void
+ +agregarServicio(servicio: Servicio, cantidad: int): void
+ +calcularPrecio(): double
+}
+class "Presupuesto.Detalle" as Detalle {
+ -servicio: Servicio
+ -cantidad: int
+ -Detalle(servicio: Servicio, cantidad: int)
+ +getServicio(): Servicio
+ +getCantidad(): int
+ +calcularSubtotal(): double
+}
+class Empresa {
+ -clientes: List<Cliente>
+ -presupuestos: List<Presupuesto>
+ -siguienteCliente: int
+ -siguientePresupuesto: int
+ +registrarCliente(nombre: String, email: String): Cliente
+ +buscarCliente(id: int): Cliente
+ +crearPresupuesto(clienteId: int): Presupuesto
+ +getClientes(): List<Cliente>
+ +getPresupuestos(): List<Presupuesto>
+}
+class Main {
+ -empresa: Empresa
+ -entrada: Scanner
+ {static} +main(args: String[]): void
+ -ejecutar(): void
+ -leerTexto(mensaje: String): String
+ -leerEntero(mensaje: String): int
+ -mostrarClientes(): void
+ -crearPresupuesto(): void
+ {static} -mostrarPresupuesto(presupuesto: Presupuesto): void
+ {static} -demostrarPOO(): void
+}
+Servicio ..|> Cotizable
+Presupuesto ..|> Cotizable
+DesarrolloWeb --|> Servicio
+Automatizacion --|> Servicio
+DesarrolloSoftware --|> Servicio
+Presupuesto "0..*" --> "1" Cliente
+Presupuesto "1" *-- "0..*" Detalle
+Detalle "0..*" --> "1" Servicio
+Empresa "1" o-- "0..*" Cliente : registra
+Empresa "1" --> "0..*" Presupuesto : gestiona
+Main --> Empresa
+Main ..> DesarrolloWeb
+Main ..> Automatizacion
+Main ..> DesarrolloSoftware
+Main ..> Cotizable
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+abstract class Servicio {
+ -nombre: String
+ -horas: int
+ -tarifaHora: double
+ {abstract} +calcularPrecio(): double
+}
+class DesarrolloWeb {
+ -paginas: int
+ +calcularPrecio(): double
+}
+class Automatizacion {
+ -procesos: int
+ +calcularPrecio(): double
+}
+class DesarrolloSoftware {
+ -modulos: int
+ +calcularPrecio(): double
+}
+class Cliente {
+ -nombre: String
+ -email: String
+ +setNombre(nombre: String): void
+}
+class Presupuesto {
+ -id: int
+ +agregarServicio(servicio: Servicio): void
+ +calcularPrecio(): double
+}
+class "Detalle" as Detalle {
+ -cantidad: int
+ +calcularSubtotal(): double
+}
+Servicio <|-- DesarrolloWeb
+Servicio <|-- Automatizacion
+Servicio <|-- DesarrolloSoftware
+Presupuesto --> "1" Cliente
+Presupuesto "1" *-- "0..*" Detalle
+Detalle --> "1" Servicio
+note bottom
+Vista simplificada: Detalle corresponde a Presupuesto.Detalle.
+Se omiten Main, Empresa, Cotizable, constructores y getters.
+end note
+@enduml

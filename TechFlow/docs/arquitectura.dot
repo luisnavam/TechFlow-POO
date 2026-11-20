@@ -1,0 +1,14 @@
+digraph Clases {
+graph [rankdir=TB,bgcolor="white",nodesep=.7,ranksep=.55,pad=.2];
+node [shape=record,fontname="DejaVu Sans",fontsize=13,color="#475569",margin=".16,.12"];
+edge [fontname="DejaVu Sans",fontsize=11,color="#374151"];
+Main [label="Main|menú de consola"];
+Empresa [label="Empresa|registrarCliente()\lgetClientes()\lbuscarCliente()\l"];
+Repo [label="«interface»\nClienteRepositorio|guardar(...) : Cliente\llistar() : List‹Cliente›\lbuscarPorId(id) : Cliente\l"];
+Dao [label="ClienteDAO|guardar(...) : Cliente\llistar() : List‹Cliente›\lbuscarPorId(id) : Cliente\l"];
+Conexion [label="Conexion|abrir() : Connection"];
+Main -> Empresa [label=" usa"];
+Empresa -> Repo [label=" usa el contrato"];
+Repo -> Dao [dir=back,arrowtail=empty,style=dashed,label=" implementa"];
+Dao -> Conexion [label=" abre la conexión con"];
+}
